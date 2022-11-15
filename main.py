@@ -5,8 +5,8 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 1
-SHORT_BREAK_MIN = 25
+WORK_MIN = 25
+SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 checkmark = "✓"
 reps = 0
@@ -20,8 +20,16 @@ import pygame
 
 pygame.mixer.init()
 
-def play():
+def play1():
     pygame.mixer.music.load("Campfire.mp3")
+    pygame.mixer.music.play(loops=0)
+
+def play2():
+    pygame.mixer.music.load("Sky.mp3")
+    pygame.mixer.music.play(loops=0)
+
+def play3():
+    pygame.mixer.music.load("Rainbow.mp3")
     pygame.mixer.music.play(loops=0)
 
 canvas = Canvas(width=200, height=240, bg=YELLOW, highlightthickness=0)
@@ -38,15 +46,19 @@ def start_clicked():
     long_break_sec = LONG_BREAK_MIN * 60
 
     reps += 1
+    print(reps)
     if reps % 8 == 0:
         count_down(long_break_sec)
         my_label.config(text="Long Break", fg=RED)
+        play3()
     elif reps % 2 == 0:
         count_down(short_break_sec)
         my_label.config(text="Short Break", fg=PINK)
+        play2()
     else:
         count_down(work_sec)
         my_label.config(text="Work", fg=GREEN)
+        play1()
 
 def reset_clicked():
 
@@ -69,7 +81,6 @@ def count_down(count):
         canvas.itemconfig(timer_text, text=finaltext)
     else:
         start_clicked()
-        play()
         window.lift()
         if reps % 2 == 0:
             finalcheckmark = finalcheckmark + checkmark
